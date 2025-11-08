@@ -21,7 +21,6 @@ const PdfViewerPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0">
-
       {/* Top Bar */}
       <div className="w-full bg-white shadow-md flex items-center justify-between px-4 py-3 sticky top-0 z-40">
         <button
@@ -47,14 +46,15 @@ const PdfViewerPage = () => {
       {/* PDF Container */}
       <div className="w-full max-w-5xl mt-4 bg-white shadow-xl rounded-xl overflow-hidden border px-0">
         {loading && (
-          <div className="flex justify-center items-center h-[80vh] text-gray-500 text-lg">
-            Loading PDF...
+          <div className="flex justify-center items-center h-[80vh]">
+            <div className="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
 
         <iframe
           src={pdfUrl}
           title={name}
+          loading="lazy"
           onLoad={() => setLoading(false)}
           style={{ transform: `scale(${zoom})`, transformOrigin: "top center" }}
           className={`w-full h-[85vh] transition transform duration-200 ${
