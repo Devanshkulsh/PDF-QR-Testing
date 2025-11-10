@@ -6,74 +6,95 @@ const PdfViewerPage = () => {
   const navigate = useNavigate();
   const cloudName = "dccfvamjy";
 
-  const pdfUrl = `https://res.cloudinary.com/${cloudName}/image/upload/v1762589749/${name}.pdf#toolbar=1&zoom=auto`;
+  const pdfUrl = `https://res.cloudinary.com/${cloudName}/image/upload/v1762589749/${name}.pdf`;
 
   const [loading, setLoading] = useState(true);
   const [zoom, setZoom] = useState(1);
 
-  // Convert filename to readable title
-  const formattedName = name
-    .replace(/[-_]+/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  const formattedName = (() => {
+    let clean = name
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
 
-  const zoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 2));
-  const zoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.6));
+    // Remove last 6-character random hash if present
+    clean = clean.replace(/\s[a-z0-9]{6}$/i, "");
+
+    const parts = clean.split(" ");
+
+    if (parts.length >= 3) {
+      const commonName = parts[0];
+      const botanicalName = parts.slice(1).join(" ");
+      return `${commonName} (${botanicalName})`;
+    }
+
+    return clean;
+  })();
+
+  const zoomIn = () => setZoom((prev) => Math.min(prev + 0.15, 2));
+  const zoomOut = () => setZoom((prev) => Math.max(prev - 0.15, 0.55));
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center pb-20">
       {/* Top Bar */}
-      <div className="w-full bg-white shadow-md flex items-center justify-between px-4 py-3 sticky top-0 z-40">
+      <div className="w-full bg-white shadow-md flex items-center justify-between px-3 sm:px-5 py-3 sticky top-0 z-50">
         <button
           onClick={() => navigate(-1)}
-          className="text-gray-600 hover:text-gray-900 text-sm md:text-base"
+          className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
         >
           ← Back
         </button>
 
-        <h1 className="text-base md:text-xl font-medium text-gray-800 text-center truncate max-w-[60%]">
+        <h1
+          className="text-center flex-1 text-xs sm:text-base md:text-lg font-medium text-gray-800 px-2 truncate"
+          title={formattedName}
+        >
           {formattedName}
         </h1>
 
         <a
           href={pdfUrl}
           download
-          className="px-3 py-1.5 bg-blue-600 text-white text-sm md:text-base rounded-lg hover:bg-blue-700 transition"
+          className="px-3 py-1.5 bg-blue-600 text-white text-xs sm:text-sm rounded-lg hover:bg-blue-700 transition"
         >
           Download
         </a>
       </div>
 
-      {/* PDF Container */}
-      <div className="w-full max-w-5xl mt-4 bg-white shadow-xl rounded-xl overflow-hidden border px-0">
+      {/* PDF Viewer */}
+      <div className="w-full max-w-5xl mt-3 bg-white shadow-lg rounded-xl border overflow-hidden">
         {loading && (
-          <div className="flex justify-center items-center h-[80vh]">
-            <div className="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="flex justify-center items-center h-[75vh] sm:h-[80vh]">
+            <div className="h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
 
-        <iframe
-          src={pdfUrl}
-          title={name}
-          loading="lazy"
-          onLoad={() => setLoading(false)}
-          style={{ transform: `scale(${zoom})`, transformOrigin: "top center" }}
-          className={`w-full h-[85vh] transition transform duration-200 ${
-            loading ? "opacity-0" : "opacity-100"
-          }`}
-        />
+        <div className="w-full overflow-auto touch-pinch-zoom">
+          <iframe
+            src={`${pdfUrl}#toolbar=1&zoom=page-width`}
+            title={name}
+            loading="lazy"
+            onLoad={() => setLoading(false)}
+            style={{
+              width: `${100 / zoom}%`,
+              height: "85vh",
+              transition: "width 0.2s ease",
+            }}
+            className={`block mx-auto ${loading ? "opacity-0" : "opacity-100"}`}
+          />
+        </div>
       </div>
 
       {/* Zoom Buttons */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+      <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 flex flex-col gap-2 sm:gap-3 z-50">
         <button
           onClick={zoomIn}
-          className="bg-white border shadow-md rounded-full w-12 h-12 flex items-center justify-center text-xl hover:bg-gray-100"
+          className="bg-white border shadow-lg rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-lg sm:text-2xl hover:bg-gray-200"
         >
           +
         </button>
         <button
           onClick={zoomOut}
-          className="bg-white border shadow-md rounded-full w-12 h-12 flex items-center justify-center text-xl hover:bg-gray-100"
+          className="bg-white border shadow-lg rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-lg sm:text-2xl hover:bg-gray-200"
         >
           –
         </button>
