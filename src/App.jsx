@@ -6,7 +6,7 @@ function App() {
   return (
     <Routes>
       <Route path="/pdf/:name" element={<PdfViewerPage />} />
-      <Route path="digital-garden" element={<DigitalHerbalGarden />} />
+      <Route path="/" element={<DigitalHerbalGarden />} />
     </Routes>
   );
 }
