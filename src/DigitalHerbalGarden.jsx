@@ -68,8 +68,20 @@ const DigitalHerbalGarden = () => {
             ring-2 ring-green-500/50 hover:ring-green-700/70
           "
         >
-          {/* Using a different, modern icon (File Text) */}
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
           View Details
         </button>
       </div>
@@ -78,14 +90,14 @@ const DigitalHerbalGarden = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      
       {/* Title Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-green-900 tracking-tight leading-snug">
           🌿 Digital Herbal Garden
         </h1>
         <p className="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-          Explore the medicinal properties and detailed information of various traditional herbs.
+          Explore the medicinal properties and detailed information of various
+          traditional herbs.
         </p>
         <div className="w-20 h-1.5 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
       </div>
@@ -105,57 +117,69 @@ const DigitalHerbalGarden = () => {
         ))}
       </div>
 
-      {/* PDF Modal */}
+      {/* PDF Modal (Mobile improvements applied here) */}
       {openPdf && (
         <div
           className="
             fixed inset-0 
             backdrop-blur-md bg-black/60 
             flex items-center justify-center 
-            p-2 xs:p-4 
+            p-1 xs:p-2 sm:p-4 // Reduced padding for better use of mobile screen space
             z-100
           "
           onClick={() => setOpenPdf(null)} // Close on clicking outside
         >
           <div
-            // Added 'flex flex-col' to use space-between effectively
             className="
-              bg-white rounded-2xl 
+              bg-white rounded-xl // Reduced rounding
               w-full 
-              h-[95vh] 
+              h-screen sm:h-[95vh] // Use full viewport height on mobile
               max-w-full 
               sm:max-w-4xl 
               lg:max-w-6xl 
               overflow-hidden 
-              shadow-2xl border-4 border-green-700 
+              shadow-2xl border-2 border-green-700 // Reduced size
               transition-all duration-500 ease-in-out
               transform scale-100 opacity-100
               flex flex-col
             "
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
           >
-            
-            {/* Header - Stays at the top */}
-            <div 
+            {/* Header - Optimized for mobile */}
+            <div
               id="modal-header"
-              className="flex justify-between items-center p-4 sm:p-5 border-b bg-green-700 text-white shadow-md shrink-0"
+              className="flex justify-between items-center p-3 sm:p-5 border-b bg-green-700 text-white shadow-md shrink-0"
             >
-              <h3 className="text-xl sm:text-2xl font-extrabold">Plant Details (PDF Viewer)</h3>
+              <h3 className="text-lg sm:text-2xl font-extrabold">
+                Plant Details (PDF Viewer)
+              </h3>
               <button
-                className="text-yellow-300 hover:text-white transition-colors p-2 rounded-full hover:bg-green-800"
+                className="text-yellow-300 hover:text-white transition-colors p-1 rounded-full hover:bg-green-800"
                 onClick={() => setOpenPdf(null)}
               >
-                {/* Modern close icon (X) */}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                {/* Modern close icon (X) - Smaller on mobile */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
               </button>
             </div>
 
             {/* PDF Viewer - Takes all remaining height */}
             <div
               className="
-                bg-gray-100           // <--- KEY FIX: Use h-full to take remaining space
-                overflow-y-auto  // Ensures scrollability
-                grow        // Ensures it fills the remaining space from the header
+                bg-gray-100 
+                overflow-y-auto 
+                h-full
               "
             >
               <iframe
@@ -164,7 +188,6 @@ const DigitalHerbalGarden = () => {
                 title="PDF Viewer"
               ></iframe>
             </div>
-
           </div>
         </div>
       )}
