@@ -1,30 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { plants } from "../data/plants"; // <-- put all 47 in plants.js
 
 const DigitalHerbalGardenFinal = () => {
   const [openPdf, setOpenPdf] = useState(null);
 
-  const plants = [
-    {
-      title: "Bala (Sida Cordifolia)",
-      image: "/assets/bala.webp",
-      pdf: "https://res.cloudinary.com/dccfvamjy/image/upload/v1762753313/Bala_Sida_Cordifolia_bsnyxt.pdf",
-    },
-    {
-      title: "Dadim (Pomegranate)",
-      image: "/assets/dadim.webp",
-      pdf: "https://res.cloudinary.com/dccfvamjy/image/upload/v1762589749/Dadim_prgcc2.pdf",
-    },
-    {
-      title: "Dhanyak (Coriander)",
-      image: "/assets/dhanyak.webp",
-      pdf: "https://res.cloudinary.com/dccfvamjy/image/upload/v1762589749/dhanyak_asfllh.pdf",
-    },
-    {
-      title: "Emblica (Amla/Gooseberry)",
-      image: "/assets/emblica.webp",
-      pdf: "https://res.cloudinary.com/dccfvamjy/image/upload/v1762589749/emblica_oifmnm.pdf",
-    },
-  ];
+  /* ---------------- PAGINATION CONFIG ---------------- */
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(plants.length / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const currentItems = plants.slice(indexOfFirstItem, indexOfLastItem);
+
+  /* Auto-scroll to top when page changes */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   const togglePdf = (pdfUrl) => {
     setOpenPdf(openPdf === pdfUrl ? null : pdfUrl);
@@ -47,26 +41,17 @@ const DigitalHerbalGardenFinal = () => {
       {/* Table Layout */}
       <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl border border-gray-200">
         <div className="overflow-x-auto rounded-xl">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full table-fixed divide-y divide-gray-200">
             {/* Table Header */}
             <thead className="bg-green-100/50">
               <tr>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider w-1/4 sm:w-1/6"
-                >
+                <th className="px-4 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider w-[20%]">
                   Image
                 </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider min-w-[150px]"
-                >
+                <th className="px-4 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider w-[55%]">
                   Plant Name
                 </th>
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-center text-xs font-bold text-green-700 uppercase tracking-wider w-1/4 sm:w-1/6"
-                >
+                <th className="px-4 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider w-[20%]">
                   Details
                 </th>
               </tr>
@@ -74,15 +59,15 @@ const DigitalHerbalGardenFinal = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-100">
-              {plants.map((plant, index) => (
+              {currentItems.map((plant, index) => (
                 <>
                   <tr
                     key={index}
                     className="hover:bg-yellow-50 transition duration-150 ease-in-out"
                   >
                     {/* Image Cell */}
-                    <td className="p-2 sm:p-4 whitespace-nowrap">
-                      <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-lg overflow-hidden border border-gray-300 mx-auto">
+                    <td className="p-2 sm:p-4 whitespace-nowrap w-[20%]">
+                      <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-lg overflow-hidden border border-gray-300">
                         <img
                           src={plant.image}
                           alt={plant.title}
@@ -92,14 +77,14 @@ const DigitalHerbalGardenFinal = () => {
                     </td>
 
                     {/* Title Cell */}
-                    <td className="px-4 py-3 sm:py-4">
+                    <td className="px-4 py-3 sm:py-4 w-[55%]">
                       <div className="text-sm sm:text-lg font-semibold text-green-800">
                         {plant.title}
                       </div>
                     </td>
 
                     {/* Button Cell */}
-                    <td className="px-4 py-3 sm:py-4 whitespace-nowrap text-center">
+                    <td className="px-4 py-3 sm:py-4 whitespace-nowrap text-center w-[25%]">
                       <button
                         onClick={() => togglePdf(plant.pdf)}
                         className={`
@@ -134,16 +119,18 @@ const DigitalHerbalGardenFinal = () => {
                     </td>
                   </tr>
 
-                  {/* PDF Accordion Row */}
+                  {/* PDF Viewer Row */}
                   {openPdf === plant.pdf && (
                     <tr key={`${index}-pdf`} className="bg-gray-50">
                       <td colSpan={3} className="p-0">
                         <div className="p-4 border-t border-gray-200">
                           <div className="bg-white rounded-lg border border-gray-300 overflow-hidden">
+                            {/* PDF Header */}
                             <div className="bg-green-700 text-white px-4 py-2 flex justify-between items-center">
                               <h4 className="font-semibold text-sm sm:text-base">
                                 {plant.title} - Plant Details
                               </h4>
+
                               <button
                                 onClick={() => setOpenPdf(null)}
                                 className="text-yellow-300 hover:text-white transition-colors p-1 rounded-full hover:bg-green-800"
@@ -163,6 +150,8 @@ const DigitalHerbalGardenFinal = () => {
                                 </svg>
                               </button>
                             </div>
+
+                            {/* PDF Viewer */}
                             <div className="h-96 sm:h-[500px] w-full">
                               <iframe
                                 src={`https://docs.google.com/gview?embedded=true&url=${plant.pdf}`}
@@ -179,6 +168,62 @@ const DigitalHerbalGardenFinal = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* ---------------- PAGINATION CONTROLS ---------------- */}
+        <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-4 gap-4">
+          {/* Prev + Next Buttons */}
+          <div className="flex items-center gap-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className={`px-3 py-1 rounded-lg border 
+        ${
+          currentPage === 1
+            ? "opacity-40 cursor-not-allowed"
+            : "bg-green-600 text-white hover:bg-green-700"
+        }
+      `}
+            >
+              Prev
+            </button>
+
+            {/* Page Display */}
+            <div className="text-gray-700 font-semibold text-sm px-3">
+              Page {currentPage} of {totalPages}
+            </div>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className={`px-3 py-1 rounded-lg border 
+        ${
+          currentPage === totalPages
+            ? "opacity-40 cursor-not-allowed"
+            : "bg-green-600 text-white hover:bg-green-700"
+        }
+      `}
+            >
+              Next
+            </button>
+          </div>
+
+          {/* Go To Page */}
+          <div className="flex items-center gap-2">
+            <span className="text-gray-700 text-sm">Go to:</span>
+            <input
+              type="number"
+              min="1"
+              max={totalPages}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const page = Number(e.target.value);
+                  if (page >= 1 && page <= totalPages) setCurrentPage(page);
+                }
+              }}
+              className="w-16 px-2 py-1 border rounded-lg"
+            />
+          </div>
         </div>
       </div>
     </div>

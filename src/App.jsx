@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PdfViewerPage from "./components/PdfViewerPage";
-import DigitalHerbalGardenCard from "./Pages/DigitalHerbalGardenCard";
-import DigitalHerbalGardenTable from "./Pages/DigitalHerbalGardenTable";
+import DigitalHerbalGardenCard from "./pages/DigitalHerbalGardenCard";
+import DigitalHerbalGardenTable from "./pages/DigitalHerbalGardenTable";
 import DigitalHerbalGardenFinal from "./Pages/DigitalHerbalGardenFinal";
 
 function App() {
