@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import PdfViewerPage from "./PdfViewerPage";
-import DigitalHerbalGarden from "./DigitalHerbalGarden";
-import DigitalHerbalGarden2 from "./DigitalHerbalGarden2";
-import DigitalHerbalGarden3 from "./DigitalHerbalGarden3";
+import PdfViewerPage from "./components/PdfViewerPage";
+import DigitalHerbalGardenCard from "./Pages/DigitalHerbalGardenCard";
+import DigitalHerbalGardenTable from "./Pages/DigitalHerbalGardenTable";
+import DigitalHerbalGardenFinal from "./Pages/DigitalHerbalGardenFinal";
 
 function App() {
   return (
     <Routes>
       <Route path="/pdf/:name" element={<PdfViewerPage />} />
-      <Route path="/" element={<DigitalHerbalGarden />} />
-      <Route path="garden" element={<DigitalHerbalGarden2 />} />
-      <Route path="herbal-garden" element={<DigitalHerbalGarden3 />} />
+      <Route path="garden-card" element={<DigitalHerbalGardenCard />} />
+      <Route path="garden-table" element={<DigitalHerbalGardenTable />} />
+      <Route path="/" element={<DigitalHerbalGardenFinal />} />
     </Routes>
   );
 }

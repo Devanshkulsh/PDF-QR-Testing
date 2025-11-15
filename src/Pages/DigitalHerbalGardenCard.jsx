@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const DigitalHerbalGarden = () => {
+const DigitalHerbalGardenCard = () => {
   const [openPdf, setOpenPdf] = useState(null);
 
   const plants = [
@@ -195,4 +195,4 @@ const DigitalHerbalGarden = () => {
   );
 };
 
-export default DigitalHerbalGarden;
+export default DigitalHerbalGardenCard;

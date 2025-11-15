@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const DigitalHerbalGarden3 = () => {
+const DigitalHerbalGardenFinal = () => {
   const [openPdf, setOpenPdf] = useState(null);
 
   const plants = [
@@ -32,24 +32,22 @@ const DigitalHerbalGarden3 = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 xs:py-12 px-2 sm:px-4 lg:px-8">
-      
       {/* Title Section */}
       <div className="text-center mb-10 xs:mb-12">
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-green-900 tracking-tight leading-snug">
           🌿 Digital Herbal Garden
         </h1>
         <p className="text-base xs:text-xl text-gray-600 mt-3 max-w-2xl mx-auto px-4">
-          Explore the medicinal properties and detailed information of various traditional herbs.
+          Explore the medicinal properties and detailed information of various
+          traditional herbs.
         </p>
         <div className="w-16 h-1 bg-yellow-500 mx-auto mt-4 rounded-full"></div>
       </div>
 
       {/* Table Layout */}
       <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl border border-gray-200">
-        
         <div className="overflow-x-auto rounded-xl">
           <table className="min-w-full divide-y divide-gray-200">
-            
             {/* Table Header */}
             <thead className="bg-green-100/50">
               <tr>
@@ -78,8 +76,8 @@ const DigitalHerbalGarden3 = () => {
             <tbody className="bg-white divide-y divide-gray-100">
               {plants.map((plant, index) => (
                 <>
-                  <tr 
-                    key={index} 
+                  <tr
+                    key={index}
                     className="hover:bg-yellow-50 transition duration-150 ease-in-out"
                   >
                     {/* Image Cell */}
@@ -92,7 +90,7 @@ const DigitalHerbalGarden3 = () => {
                         />
                       </div>
                     </td>
-                    
+
                     {/* Title Cell */}
                     <td className="px-4 py-3 sm:py-4">
                       <div className="text-sm sm:text-lg font-semibold text-green-800">
@@ -108,27 +106,28 @@ const DigitalHerbalGarden3 = () => {
                           flex items-center justify-center gap-1 
                           px-2 py-1.5 rounded-full text-xs sm:text-sm
                           shadow transition-all font-medium
-                          ${openPdf === plant.pdf 
-                            ? "bg-green-700 text-white" 
-                            : "bg-green-600 text-white hover:bg-green-700"
+                          ${
+                            openPdf === plant.pdf
+                              ? "bg-green-700 text-white"
+                              : "bg-green-600 text-white hover:bg-green-700"
                           }
                         `}
                       >
-                        <svg 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width="14" 
-                          height="14" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
                           strokeLinejoin="round"
                           className={`transition-transform duration-300 ${
                             openPdf === plant.pdf ? "rotate-180" : ""
                           }`}
                         >
-                          <path d="m6 9 6 6 6-6"/>
+                          <path d="m6 9 6 6 6-6" />
                         </svg>
                         {openPdf === plant.pdf ? "Close" : "View"}
                       </button>
@@ -149,14 +148,24 @@ const DigitalHerbalGarden3 = () => {
                                 onClick={() => setOpenPdf(null)}
                                 className="text-yellow-300 hover:text-white transition-colors p-1 rounded-full hover:bg-green-800"
                               >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M18 6L6 18M6 6l12 12"/>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M18 6L6 18M6 6l12 12" />
                                 </svg>
                               </button>
                             </div>
                             <div className="h-96 sm:h-[500px] w-full">
                               <iframe
-                                src={plant.pdf}
+                                src={`https://docs.google.com/gview?embedded=true&url=${plant.pdf}`}
                                 className="w-full h-full border-none"
                                 title={`PDF Viewer - ${plant.title}`}
                               />
@@ -176,4 +185,4 @@ const DigitalHerbalGarden3 = () => {
   );
 };
 
-export default DigitalHerbalGarden3;
+export default DigitalHerbalGardenFinal;
